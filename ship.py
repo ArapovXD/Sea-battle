@@ -236,6 +236,7 @@ class Bot():
         self.v = ""
         self.streak = 0
         self.losestreak = 0
+        self.shoots = 0
 
 
 
@@ -250,6 +251,9 @@ class Bot():
 
     def GetValueOfCell(self, y, x):
         area = self.fields["ef"].GetCellArea(y, x, self.fields["ef"].field)
+
+        if self.fields["ef"].field[y][x] != "#":
+            return -1
 
         return area.count("#")
 
@@ -302,6 +306,7 @@ class Bot():
         else:
             point = defPoints[randint(0, len(defPoints) - 1)]
 
+        print(defPoints, edgePoints, point)
         return point
 
 
@@ -456,15 +461,18 @@ class Bot():
 
         elif res == 2:                                          # If after hit the ship is destroyed - null memory
             self.NullMemory()
+            self.shoots += 1
 
         elif res == 0 and self.streak >= 2:                     # If hit is missed on vector - change vector to opposit
             self.losestreak += 1
             self.TwistVector()
+            self.shoots += 1
 
         elif res == 0:
             self.losestreak += 1
             if self.losestreak > (4 + randint(1, 5)):
                 self.losestreak = 0
+            self.shoots += 1
 
         for i in self.fields["ef"].field:
             print(*i)
@@ -604,7 +612,8 @@ class GamePlayWithBot():
     def Atack(self, frm, to):
         while True:
             try:
-                y, x = list(map(int, input("Enter y, x to hit: ").split()))
+#                y, x = list(map(int, input("Enter y, x to hit: ").split()))
+                y, x = 0, 0
                 res = frm.Hit(to, y, x)
                 break
             except:
@@ -657,7 +666,7 @@ class GamePlayWithBot():
                 break
 
             elif self.bot.CheckWin():
-                print("Bot won!")
+                print("Bot won! You held up " + str(self.bot.shoots) + " rounds!")
                 break
 
 
@@ -682,3 +691,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#609
