@@ -333,7 +333,7 @@ class Bot():
         point = []
 
         for i in points:
-            weight = self.GetValueOfCell(i[0], i[1])
+            weight = self.GetValueOfCell(i[0] + 1, i[1] + 1)
             if weight > max:
                 point = i
                 max = weight
