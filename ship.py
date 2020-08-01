@@ -116,7 +116,7 @@ class MyField(Field):
 
                     res = self.SetShip(lvl, int(y) + 1, int(x) + 1, v)
 
-                    if not res and self.num != 3:
+                    if not res and self.num in [1, 2]:
                         print("This is wrong place!")
                     elif res == 1:
                         break
