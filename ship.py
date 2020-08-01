@@ -97,7 +97,7 @@ class MyField(Field):
     def SetShips(self):
         count = 5
 
-        if self.num != 3:
+        if self.num in [1, 2]:
             print("\n" * 30)
             print("Player " + str(self.num) + ":")
             for i in range(self.y): print(*self.GetField()[i])
@@ -106,9 +106,9 @@ class MyField(Field):
             for ship in range(count - 1):
 
                 while True:
-                    if self.num != 3:
+                    if self.num in [1, 2]:
                         y, x, v = input("Enter y, x, vector right = r, down = d: ").split()
-                    else:
+                    elif self.num in [3, 4]:
                         vectors = ["r", "d"]
                         v = vectors[randint(0, 1)]
                         y = randint(0, 9)
@@ -121,7 +121,7 @@ class MyField(Field):
                     elif res == 1:
                         break
 
-                if self.num != 3:
+                if self.num in [1, 2]:
                     print("\n" * 30)
                     for i in range(self.y): print(*self.GetField()[i])
 
@@ -580,9 +580,9 @@ class GamePlay1x1:
 
 
 class GamePlayWithBot():
-    def __init__(self):
+    def __init__(self, mod = 1):
         self.bot = Bot()
-        self.p1 = {"f": MyField(11, 11, 1), "ef": EnemyField(11, 11, 1)}
+        self.p1 = {"f": MyField(11, 11, mod), "ef": EnemyField(11, 11, mod)}
         self.p1["f"].SetShips()
         self.multicast = 1
 
@@ -671,8 +671,11 @@ def main():
         game.Start()
 
     elif gametype == 2:
-
-        game = GamePlayWithBot()
+        mod = int(input("Set ships randomly - 1, else 0: "))
+        if mod:
+            game = GamePlayWithBot(4)
+        else:
+            game = GamePlayWithBot()
         game.Start()
 
 
