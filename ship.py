@@ -612,8 +612,7 @@ class GamePlayWithBot():
     def Atack(self, frm, to):
         while True:
             try:
-#                y, x = list(map(int, input("Enter y, x to hit: ").split()))
-                y, x = 0, 0
+                y, x = list(map(int, input("Enter y, x to hit: ").split()))
                 res = frm.Hit(to, y, x)
                 break
             except:
